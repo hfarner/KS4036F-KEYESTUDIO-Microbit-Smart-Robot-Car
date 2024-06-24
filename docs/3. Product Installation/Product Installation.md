@@ -20,6 +20,7 @@
 </tr>
 <tr class="odd">
 <td><h1></h1>
+
 <h1>Installation Diagram</h1></td>
 <td><h1>
 
@@ -141,7 +142,9 @@
 </tr>
 <tr class="even">
 <td><h1></h1>
-<h1>Components Needed</h1></td>
+
+<h1>Components Needed (If already installed, there is no need to install it)</h1></td>
+
 <td><h1>
 
 ![](./media/0e431163d61058bcebe55b2f96c44f4a.png)
