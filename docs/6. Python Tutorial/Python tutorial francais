@@ -1,0 +1,313 @@
+### Tutoriel Python
+
+#### Installer un IDE
+
+**Mu**
+
+Le site officiel de Mu : [https://codewith.mu/](https://codewith.mu/)
+
+Mu est un éditeur de code Python spécialement conçu pour les débutants. La façon la plus simple d’obtenir Mu est de télécharger l’installateur officiel pour Windows ou Mac OS X. La version recommandée est Mu 1.0-beta 2.
+
+**Étape 1 - Déterminer la version et télécharger l'installateur Mu**
+
+Vérifiez si votre ordinateur utilise Windows ou Mac OS X. Ouvrez l'Explorateur, cliquez sur "Ce PC", puis sélectionnez Propriétés pour connaître si votre système Windows est en 32 bits ou 64 bits.
+
+Ouvrez le lien : [https://codewith.mu/en/download](https://codewith.mu/en/download) pour télécharger la version correspondante de Mu.
+
+**Étape 2 - Exécuter l’installateur :**
+
+Trouvez l'installateur que vous venez de télécharger (il peut se trouver dans votre dossier Téléchargements) et double-cliquez pour ouvrir le fichier installateur.
+
+Pour Mac OS X : [https://codewith.mu/en/howto/1.1/install_macos](https://codewith.mu/en/howto/1.1/install_macos)
+
+**Étape 3 - Protocole :**
+
+Acceptez la licence, puis cliquez sur Installer.
+
+**Étape 4 - Installation :**
+
+L'installation de Mu sur votre ordinateur prend quelques secondes.
+
+**Étape 5 - Terminer :**
+
+Cliquez sur "Terminer".
+
+**Étape 6 - Démarrer Mu :**
+
+Vous pouvez lancer Mu en cliquant sur l'icône dans le menu Démarrer ou en tapant Mu dans la barre de recherche.
+
+---
+
+### Installer le pilote
+
+Micro:bit peut être utilisé sans installer de pilote. Si votre ordinateur ne reconnaît pas la carte micro:bit, vous devrez installer le pilote micro:bit. Le fichier de pilote micro:bit et le manuel d’installation du pilote micro:bit se trouvent dans le dossier "Micro:bit Driver Download and Installation".
+
+Installez le pilote en suivant les instructions dans le manuel d'installation de pilote dans le dossier approprié.
+
+---
+
+### Configuration du compilateur et introduction à la barre d'outils
+
+**Configurer le mode en "micro:bit"**
+
+Ouvrez Mu, cliquez sur le bouton Mode dans la barre de menu et sélectionnez "BBC micro:bit", puis cliquez sur "OK".
+
+Plus d'instructions pour utiliser Mu : [https://codewith.mu/en/tutorials/](https://codewith.mu/en/tutorials/)
+
+---
+
+### Installer le fichier de bibliothèque
+
+Avant d'importer la bibliothèque, vous devez télécharger un code `.py` sur le micro:bit. Par exemple, pour le module RGB, ouvrez le fichier "code_1.py" dans le didacticiel.
+
+Importez le fichier "keyes_MiniCar.py" dans le dossier "mu_code" dans votre répertoire utilisateur. Branchez ensuite le micro:bit à votre ordinateur et cliquez sur le bouton "Fichiers" dans Mu pour faire glisser le fichier de bibliothèque "keyes_MiniCar.py" sur le micro:bit.
+
+Cliquez sur "Vérifier" pour tester le code. Si une ligne apparaît avec un curseur ou un soulignement, cela signifie qu'il y a une erreur.
+
+---
+
+### Télécharger du code vers le Micro:bit
+
+Connectez la carte micro:bit à l'ordinateur via le câble micro USB. Cliquez sur "Flash" pour télécharger le code sur la micro:bit.
+
+En cas d’erreur après avoir cliqué sur "Flash", vérifiez si le fichier de bibliothèque a bien été importé dans la micro:bit. Vous pouvez vérifier le code en cliquant sur "Vérifier". Si Mu n'indique aucun problème, votre code est prêt.
+
+---
+
+## Projets de base Microbit
+
+### Projet 1 : Battement de cœur
+
+**Description**
+
+Ce projet utilise les modules de capteur et la matrice LED de la carte micro:bit pour afficher un motif de battement de cœur.
+
+**Code**
+
+```python
+from microbit import *
+
+while True:
+    display.show(Image.HEART)
+    sleep(500)
+    display.show(Image.HEART_SMALL)
+    sleep(500)
+```
+
+### Projet 2 : Allumer une LED
+
+La carte micro:bit contient une matrice de 5x5 diodes, contrôlées en définissant des points de coordonnées (0,0) pour allumer une LED spécifique.
+
+**Code**
+
+```python
+from microbit import *
+
+val1 = Image("09000:""00000:""00000:""00000:""00000:")
+val2 = Image("00000:""00000:""00000:""00000:""00090:")
+val3 = Image("00000:""00000:""00000:""00000:""00000:")
+
+while True:
+    display.show(val1)
+    sleep(500)
+    display.show(val3)
+    sleep(500)
+    display.show(val2)
+    sleep(500)
+    display.show(val3)
+    sleep(500)
+```
+
+---
+
+### Projet 3 : Matrice LED 5x5
+
+Utilisez la matrice LED de la carte pour afficher des motifs, des nombres et des chaînes de caractères.
+
+**Code**
+
+```python
+from microbit import *
+
+val = Image("00900:""00900:""90909:""09990:""00900")
+display.show(val)
+```
+
+---
+
+### Projet 4 : Boutons programmables
+
+La carte micro:bit dispose de deux boutons programmables. Ce projet affiche "A", "B" ou "AB" lorsque les boutons sont pressés.
+
+**Code**
+
+```python
+from microbit import *
+
+while True:
+    if button_a.is_pressed():
+        display.show("A")
+    elif button_a.is_pressed() and button_b.is_pressed():
+        display.scroll("AB")
+    elif button_b.is_pressed():
+        display.show("B")
+```
+
+---
+
+### Projet 5 : Mesure de la température
+
+La micro:bit utilise le capteur de température intégré au microcontrôleur pour mesurer la température ambiante.
+
+**Code**
+
+```python
+from microbit import *
+while True:
+    temperature = temperature()
+    print("Température:", temperature, "°C")
+    sleep(500)
+```
+
+---
+
+### Projet 6 : Boussole
+
+Ce projet utilise la boussole intégrée pour afficher la direction. Vous devez calibrer la boussole en tournant la carte micro:bit jusqu'à ce que toutes les LED soient allumées.
+
+**Code**
+
+```python
+from microbit import *
+compass.calibrate()
+
+while True:
+    if button_a.is_pressed():
+        display.scroll(compass.heading())
+```
+
+---
+
+### Projet 7 : Accéléromètre
+
+Utilisez l'accéléromètre intégré pour détecter les mouvements et les gestes, tels que "shake", "up", "down", etc.
+
+**Code**
+
+```python
+from microbit import *
+
+while True:
+    gesture = accelerometer.current_gesture()
+
+    if gesture == "shake":
+        display.show("1")
+    if gesture == "up":
+        display.show("2")
+    if gesture == "down":
+        display.show("3")
+    if gesture == "face up":
+        display.show("4")
+    if gesture == "face down":
+        display.show("5")
+    if gesture == "left":
+        display.show("6")
+    if gesture == "right":
+        display.show("7")
+    if gesture == "freefall":
+        display.show("8")
+```
+
+---
+
+### Projet 8 : Détecter l'intensité lumineuse
+
+La matrice LED de la carte peut détecter l’intensité lumineuse environnante.
+
+**Code**
+
+```python
+from microbit import *
+
+while True:
+    light_intensity = display.read_light_level()
+    print("Intensité lumineuse :", light_intensity)
+    sleep(100)
+```
+
+---
+
+### Projet 9 : Haut-parleur
+
+La carte micro:bit dispose d'un haut-parleur intégré qui permet de jouer divers sons.
+
+**Code**
+
+```python
+from microbit import *
+import audio
+
+display.show(Image.MUSIC_QUAVER)
+
+while True:
+    audio.play(Sound.GIGGLE)
+    sleep(1000)
+    audio.play(Sound.HAPPY)
+    sleep(1000)
+    audio.play(Sound.HELLO)
+    sleep(1000)
+    audio.play(Sound.YAWN)
+    sleep(1000)
+```
+
+---
+
+### Projet 10 : Logo tactile
+
+Le logo doré de la micro:bit agit comme un capteur tactile. Ce projet affiche le temps écoulé lorsque le logo est touché.
+
+**Code**
+
+```python
+from microbit import *
+time = 0
+start = 0
+running = False
+
+while True:
+    if button_a.was_pressed():
+        running = True
+        start = running_time()
+    if button_b.was_pressed():
+        if running:
+            time += running_time() - start
+        running = False
+    if pin_logo.is_touched():
+        if not running:
+            display.scroll(int(time/1000))
+
+    if running:
+        display.show(Image.HEART)
+        sleep(300)
+        display.show(Image.HEART_SMALL)
+        sleep(300)
+    else:
+        display.show(Image.ASLEEP)
+```
+
+---
+
+### Projet 11 : Microphone
+
+Le microphone intégré mesure le niveau sonore ambiant, avec un indicateur LED qui s'allume lorsqu'un son est détecté.
+
+**Code**
+
+```python
+from microbit import *
+
+while True:
+    if microphone.current_event() == SoundEvent.LOUD:
+        display.show(Image.HEART)
+        sleep(200)
+    if microphone
