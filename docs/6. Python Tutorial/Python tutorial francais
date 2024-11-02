@@ -299,9 +299,18 @@ while True:
 
 ### Projet 11 : Microphone
 
-Le microphone intégré mesure le niveau sonore ambiant, avec un indicateur LED qui s'allume lorsqu'un son est détecté.
+1. **Description**
 
-**Code**
+La carte micro:bit est équipée d'un microphone intégré permettant de mesurer le niveau sonore ambiant. Lorsque vous applaudissez, l'indicateur LED sur la carte s'allume. Cela permet de mesurer l'intensité du son, et vous pouvez créer des effets lumineux qui s'accordent avec le son ambiant.
+
+2. **Composants nécessaires**
+
+- Micro:bit * 1
+- Câble USB * 1
+
+3. **Code de Test**
+
+Code 1 :
 
 ```python
 from microbit import *
@@ -310,4 +319,266 @@ while True:
     if microphone.current_event() == SoundEvent.LOUD:
         display.show(Image.HEART)
         sleep(200)
-    if microphone
+    if microphone.current_event() == SoundEvent.QUIET:
+        display.show(Image.HEART_SMALL)
+```
+
+**Résultat du test** : Téléchargez le code sur la carte micro:bit et maintenez le câble USB connecté. Lorsque vous applaudissez, la matrice LED affiche un cœur. Lorsque l'environnement est silencieux, un petit cœur s'affiche.
+
+Code 2 :
+
+```python
+from microbit import *
+maxSound = 0
+lights = Image("11111:"
+              "11111:"
+              "11111:"
+              "11111:"
+              "11111")
+soundLevel = microphone.sound_level()
+sleep(200)
+
+while True:
+    if button_a.is_pressed():
+        display.scroll(maxSound)
+    else:
+        soundLevel = microphone.sound_level()
+        display.show(lights * soundLevel)
+        if soundLevel > maxSound:
+            maxSound = soundLevel
+```
+
+**Résultat du test** : En appuyant sur le bouton A, la matrice LED affiche le niveau sonore maximum détecté. Lorsque vous applaudissez, plus le son est fort, plus les 25 LED brillent intensément.
+
+---
+
+### Projet 12 : Communication sans fil Bluetooth
+
+1. **Description**
+
+La micro:bit intègre un module Bluetooth basse consommation pour envoyer et recevoir des données. Cependant, elle dispose de seulement 16k de RAM. Le Bluetooth consomme 12k de RAM, ne laissant pas assez d'espace pour exécuter MicroPython et Bluetooth simultanément. 
+
+**Lien** : [Documentation Bluetooth micro:bit](https://microbit-micropython.readthedocs.io/en/latest/ble.html)
+
+**Note** : Avant d’installer la micro:bit sur la carte d’extension, déconnectez le câble USB et éteignez la carte pour éviter tout risque d’endommagement. 
+
+---
+
+### Projet 13 : Module RGB
+
+1. **Description**
+
+Le mode couleur RGB (Rouge, Vert, Bleu) est un standard permettant de créer diverses couleurs en ajustant les niveaux de chaque couleur primaire. Dans ce projet, vous utiliserez deux LEDs RGB pour afficher des couleurs différentes et créer des transitions colorées.
+
+2. **Préparation**
+
+- Insérez correctement la micro:bit dans la carte d'extension.
+- Connectez la batterie à la carte d'extension.
+- Activez l'interrupteur d'alimentation.
+- Connectez la micro:bit à l'ordinateur via un câble USB.
+- Ouvrez la version Web de Makecode et ajoutez la bibliothèque d’extension Mini car.
+
+3. **Code de Test**
+
+Code 1 :
+
+```python
+from microbit import *
+from keyes_MiniCar import *
+minicar = MiniCar()
+
+while True:
+    minicar.left_red(0)
+    minicar.right_red(0)
+    sleep(1000)
+    minicar.led_off()
+    minicar.left_green(0)
+    minicar.right_green(0)
+    sleep(1000)
+    minicar.led_off()
+    minicar.left_blue(0)
+    minicar.right_blue(0)
+    sleep(1000)
+    minicar.led_off()
+```
+
+**Résultat du test** : Les LED RGB alterneront chaque seconde entre rouge, vert et bleu.
+
+---
+
+### Projet 14 : Conduite du moteur
+
+1. **Description**
+
+Le robot est équipé de deux moteurs à engrenages DC permettant de fournir un couple plus élevé à une vitesse réduite. Le contrôleur utilise le bus I2C pour envoyer des commandes au moteur, optimisant ainsi les ports d'entrée/sortie de la micro:bit.
+
+2. **Code de Test**
+
+```python
+from microbit import *
+from keyes_MiniCar import *
+minicar = MiniCar()
+
+while True:
+    # Avancer
+    minicar.Motor_L(1, 70)
+    minicar.Motor_R(1, 70)
+    sleep(1000)
+    # Reculer
+    minicar.Motor_L(0, 70)
+    minicar.Motor_R(0, 70)
+    sleep(1000)
+    # Tourner à gauche
+    minicar.Motor_L(0, 70)
+    minicar.Motor_R(1, 70)
+    sleep(1000)
+    # Tourner à droite
+    minicar.Motor_L(1, 70)
+    minicar.Motor_R(0, 70)
+    sleep(1000)
+    minicar.Motor_stop()
+    sleep(1000)
+```
+
+---
+
+### Projet 15 : Suivi de la lumière pour le robot
+
+1. **Description**
+
+Le robot peut suivre une source lumineuse grâce aux photo-résistances, qui détectent l’intensité lumineuse. Plus la lumière est intense, plus la résistance diminue, augmentant ainsi la tension d’entrée.
+
+2. **Code de Test**
+
+Code 1 :
+
+```python
+from microbit import *
+
+while True:
+    LDR_L = pin1.read_analog()
+    LDR_R = pin0.read_analog()
+    print("LDR_L:", LDR_L)
+    print("LDR_R:", LDR_R)
+    sleep(1000)
+```
+
+Code 2 :
+
+```python
+from microbit import *
+from keyes_MiniCar import *
+minicar = MiniCar()
+
+while True:
+    LDR_L = pin1.read_analog()
+    LDR_R = pin0.read_analog()
+    if LDR_L > 650 and LDR_R > 650:
+        minicar.Motor_L(1, 70)
+        minicar.Motor_R(1, 70)
+    elif LDR_L > 650 and LDR_R <= 650:
+        minicar.Motor_L(0, 70)
+        minicar.Motor_R(1, 70)
+    elif LDR_L <= 650 and LDR_R > 650:
+        minicar.Motor_L(1, 70)
+        minicar.Motor_R(0, 70)
+    else:
+        minicar.Motor_stop()
+```
+
+---
+
+### Projet 16 : Suivi de ligne pour le robot
+
+1. **Description**
+
+Le robot utilise des capteurs infrarouges pour suivre une ligne noire sur fond blanc. Ces capteurs détectent la différence de couleur et signalent au microcontrôleur si le robot se trouve sur la ligne ou hors ligne.
+
+2. **Code de Test**
+
+```python
+from microbit import *
+from keyes_MiniCar import *
+minicar = MiniCar()
+pin12.set_pull(pin12.PULL_UP)
+pin13.set_pull(pin13.PULL_UP)
+sensor_L = 0
+sensor_R = 0
+
+while True:
+    sensor_L = pin13.read_digital()
+    sensor_R = pin12.read_digital()
+    print("sensor_L:", sensor_L)
+    print("sensor_R:", sensor_R)
+    if sensor_L == 1 and sensor_R == 1:
+        minicar.Motor_L(1, 100)
+        minicar.Motor_R(1, 100)
+    elif sensor_L == 0 and sensor_R == 1:
+        minicar.Motor_L(1, 100)
+        minicar.Motor_R(0, 100)
+    elif sensor_L == 1 and sensor_R == 0:
+        minicar.Motor_L(0, 100)
+        minicar.Motor_R(1, 100)
+    else:
+        minicar.Motor_stop()
+```
+
+---
+
+### Projet 17 : Suivi et évitement d’obstacle par ultrason
+
+1. **Description**
+
+Le capteur à ultrasons utilise des ondes sonores pour mesurer la distance à un objet. Il envoie des signaux ultrasoniques qui, une fois réfléchis par un obstacle, permettent de calculer la distance.
+
+2. **Code de Test**
+
+Code pour suivi d'obstacle :
+
+```python
+from microbit import *
+from keyes_MiniCar import *
+minicar = MiniCar()
+
+while True:
+    distance = 0
+    distance = minicar.get_distance()
+    if distance >= 10 and distance <= 30:
+        minicar.Motor_L(1, 100)
+        minicar.Motor_R(1, 100)
+        sleep(50)
+    elif distance <= 6:
+        minicar.Motor_L(0, 100)
+        minicar.Motor_R(0, 100)
+        sleep(50)
+    elif (distance > 6 and distance < 10) or distance > 30:
+        minicar.Motor_stop()
+        sleep(50)
+```
+
+**Code pour évitement d'obstacle :**
+
+```python
+from microbit import *
+from keyes_MiniCar import *
+minicar = MiniCar()
+
+while True:
+    distance = 0
+    distance = minicar.get_distance()
+    if distance > 10:
+        minicar.Motor_L(1, 70)
+        minicar.Motor_R(1, 70)
+        sleep(50)
+    else:
+        minicar.Motor_L(0, 70)
+        minicar.Motor_R(0, 70)
+```
+Résultat du test : Évitement d'obstacle par ultrason
+
+Après avoir téléchargé le code et activé l'interrupteur d'alimentation à l'arrière de la voiture, le comportement suivant est observé :
+
+    Si la distance entre le capteur ultrason et un obstacle est supérieure à 10 cm, la voiture avancera tout droit.
+    Si un obstacle est détecté à moins de 10 cm, la voiture effectuera un virage à gauche pour éviter la collision.
+
+Ce comportement permet à la voiture d'éviter les obstacles en ajustant sa trajectoire lorsqu'un objet se trouve trop près.
